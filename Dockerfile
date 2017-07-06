@@ -18,3 +18,5 @@ RUN apk add --no-cache bash && \
     printf "\n\nspark.shuffle.service.enabled    true" >> spark-defaults.conf && \
     rm -rf /var/cache/apk/* \
            /tmp/*
+
+CMD ["/bin/bash"]
