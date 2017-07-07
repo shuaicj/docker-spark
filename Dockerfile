@@ -1,9 +1,9 @@
 FROM shuaicj/java:8.131.11
 MAINTAINER shuaicj <shuaicj@gmail.com>
 
-ENV SPARK_RELEASE=spark-2.1.1-bin-hadoop2.7 \
-    SPARK_HOME=/spark/${SPARK_RELEASE} \
-    PATH=${PATH}:${SPARK_HOME}/bin
+ENV SPARK_RELEASE spark-2.1.1-bin-hadoop2.7
+ENV SPARK_HOME /spark/${SPARK_RELEASE}
+ENV PATH ${PATH}:${SPARK_HOME}/bin
 
 RUN apk add --no-cache --update bash sed grep procps coreutils && \
     sed -i -e "s/bin\/ash/bin\/bash/" /etc/passwd && \
@@ -21,6 +21,6 @@ RUN apk add --no-cache --update bash sed grep procps coreutils && \
 
 WORKDIR ${SPARK_HOME}
 
-EXPOSE 4040 6066 7077 8080
+EXPOSE 4040 6066 7077 8080 9000
 
 CMD ["/bin/bash"]
