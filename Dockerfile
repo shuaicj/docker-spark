@@ -1,11 +1,13 @@
-FROM openjdk:8-jre
+FROM shuaicj/java:8.131.11
 MAINTAINER shuaicj <shuaicj@gmail.com>
 
-ENV SPARK_RELEASE spark-2.1.1-bin-hadoop2.7
-ENV SPARK_HOME /spark/${SPARK_RELEASE}
-ENV PATH ${PATH}:${SPARK_HOME}/bin
+ENV SPARK_RELEASE=spark-2.1.1-bin-hadoop2.7 \
+    SPARK_HOME=/spark/${SPARK_RELEASE} \
+    PATH=${PATH}:${SPARK_HOME}/bin
 
-RUN cd /tmp && \
+RUN apk add --no-cache --update bash sed grep procps coreutils && \
+    sed -i -e "s/bin\/ash/bin\/bash/" /etc/passwd && \
+    cd /tmp && \
     curl -jksSLO https://d3kbcqa49mib13.cloudfront.net/${SPARK_RELEASE}.tgz && \
     mkdir /spark && \
     tar zxvf ${SPARK_RELEASE}.tgz -C /spark && \
@@ -14,4 +16,11 @@ RUN cd /tmp && \
     printf "\n\nSPARK_MASTER_WEBUI_PORT=8080\nSPARK_WORKER_PORT=9000\n" >> spark-env.sh && \
     cp spark-defaults.conf.template spark-defaults.conf && \
     printf "\n\nspark.shuffle.service.enabled    true\n" >> spark-defaults.conf && \
-    rm -rf /tmp/*
+    rm -rf /var/cache/apk/* \
+           /tmp/*
+
+WORKDIR ${SPARK_HOME}
+
+EXPOSE 4040 6066 7077 8080
+
+CMD ["/bin/bash"]
