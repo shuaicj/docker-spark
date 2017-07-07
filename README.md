@@ -3,8 +3,10 @@
 
 ## Docker image with Apache Spark
 
-This is a docker image with [Apache Spark](https://spark.apache.org) based on [shuaicj/java](https://github.com/shuaicj/docker-java).
+This is a docker image with [Apache Spark](https://spark.apache.org) based on [shuaicj/docker-java](https://github.com/shuaicj/docker-java).
 
 #### Pull
 - for latest
     - `docker pull shuaicj/spark`
+- for stable
+    - `docker pull shuaicj/spark:2.1.1`
